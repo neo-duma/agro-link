@@ -68,49 +68,49 @@ model Categoria {
 }
 
 model Produto {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   produtorId  String
-  produtor    Produtor @relation(fields: [produtorId], references: [id])
+  produtor    Produtor  @relation(fields: [produtorId], references: [id])
   categoriaId String
   categoria   Categoria @relation(fields: [categoriaId], references: [id])
   nome        String
   descricao   String?
-  preco       Decimal  @db.Decimal(10, 2)
+  preco       Decimal   @db.Decimal(10, 2)
   unidade     String
-  estoque     Int      @default(0)
+  estoque     Int       @default(0)
   fotos       String[]
-  ativo       Boolean  @default(true)
-  criadoEm    DateTime @default(now())
+  ativo       Boolean   @default(true)
+  criadoEm    DateTime  @default(now())
 
-  itensPedido  ItemPedido[]
+  itensPedido   ItemPedido[]
   itensCarrinho ItemCarrinho[]
 
   @@map("produtos")
 }
 
 model Pedido {
-  id               String       @id @default(uuid())
-  compradorId      String
-  comprador        User         @relation(fields: [compradorId], references: [id])
-  status           StatusPedido @default(PENDENTE)
-  valorTotal       Decimal      @db.Decimal(10, 2)
-  enderecoEntrega  String
-  criadoEm         DateTime     @default(now())
+  id              String       @id @default(uuid())
+  compradorId     String
+  comprador       User         @relation(fields: [compradorId], references: [id])
+  status          StatusPedido @default(PENDENTE)
+  valorTotal      Decimal      @db.Decimal(10, 2)
+  enderecoEntrega String
+  criadoEm        DateTime     @default(now())
 
-  itens    ItemPedido[]
+  itens     ItemPedido[]
   pagamento Pagamento?
 
   @@map("pedidos")
 }
 
 model ItemPedido {
-  id             String  @id @default(uuid())
-  pedidoId       String
-  pedido         Pedido  @relation(fields: [pedidoId], references: [id])
-  produtoId      String
-  produto        Produto @relation(fields: [produtoId], references: [id])
-  quantidade     Int
-  precoUnitario  Decimal @db.Decimal(10, 2)
+  id            String  @id @default(uuid())
+  pedidoId      String
+  pedido        Pedido  @relation(fields: [pedidoId], references: [id])
+  produtoId     String
+  produto       Produto @relation(fields: [produtoId], references: [id])
+  quantidade    Int
+  precoUnitario Decimal @db.Decimal(10, 2)
 
   @@map("itens_pedido")
 }
@@ -142,9 +142,9 @@ model Avaliacao {
 }
 
 model Carrinho {
-  id          String         @id @default(uuid())
-  compradorId String         @unique
-  comprador   User           @relation(fields: [compradorId], references: [id])
+  id          String @id @default(uuid())
+  compradorId String @unique
+  comprador   User   @relation(fields: [compradorId], references: [id])
 
   itens ItemCarrinho[]
 

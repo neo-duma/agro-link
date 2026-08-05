@@ -7,8 +7,8 @@ Marketplace de produtos agrícolas — conecta produtores e compradores em um s�
 ```
 agrolink/
 ├── apps/
-│   ├── web/      # Frontend Next.js (App Router) + Tailwind
-│   └── api/      # Backend NestJS + Prisma
+│   ├── web/      # Frontend React + Vite + Tailwind (SPA)
+│   └── api/      # Backend Express + Prisma
 ├── packages/
 │   └── shared/   # Tipos TypeScript compartilhados entre web e api
 ├── docker-compose.yml   # Postgres + Redis locais
