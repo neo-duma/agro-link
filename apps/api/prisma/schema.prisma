@@ -1,0 +1,163 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TipoUsuario {
+  COMPRADOR
+  PRODUTOR
+  ADMIN
+}
+
+enum StatusPedido {
+  PENDENTE
+  CONFIRMADO
+  EM_PREPARO
+  ENVIADO
+  ENTREGUE
+  CANCELADO
+}
+
+model User {
+  id        String      @id @default(uuid())
+  nome      String
+  email     String      @unique
+  senhaHash String
+  telefone  String?
+  tipo      TipoUsuario @default(COMPRADOR)
+  criadoEm  DateTime    @default(now())
+
+  produtor   Produtor?
+  pedidos    Pedido[]
+  avaliacoes Avaliacao[]
+  carrinho   Carrinho?
+
+  @@map("users")
+}
+
+model Produtor {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id])
+  nomeLoja          String
+  descricao         String?
+  logoUrl           String?
+  localizacao       String?
+  statusVerificacao Boolean  @default(false)
+  criadoEm          DateTime @default(now())
+
+  produtos Produto[]
+
+  @@map("produtores")
+}
+
+model Categoria {
+  id             String      @id @default(uuid())
+  nome           String
+  categoriaPaiId String?
+  categoriaPai   Categoria?  @relation("SubCategorias", fields: [categoriaPaiId], references: [id])
+  subcategorias  Categoria[] @relation("SubCategorias")
+
+  produtos Produto[]
+
+  @@map("categorias")
+}
+
+model Produto {
+  id          String   @id @default(uuid())
+  produtorId  String
+  produtor    Produtor @relation(fields: [produtorId], references: [id])
+  categoriaId String
+  categoria   Categoria @relation(fields: [categoriaId], references: [id])
+  nome        String
+  descricao   String?
+  preco       Decimal  @db.Decimal(10, 2)
+  unidade     String
+  estoque     Int      @default(0)
+  fotos       String[]
+  ativo       Boolean  @default(true)
+  criadoEm    DateTime @default(now())
+
+  itensPedido  ItemPedido[]
+  itensCarrinho ItemCarrinho[]
+
+  @@map("produtos")
+}
+
+model Pedido {
+  id               String       @id @default(uuid())
+  compradorId      String
+  comprador        User         @relation(fields: [compradorId], references: [id])
+  status           StatusPedido @default(PENDENTE)
+  valorTotal       Decimal      @db.Decimal(10, 2)
+  enderecoEntrega  String
+  criadoEm         DateTime     @default(now())
+
+  itens    ItemPedido[]
+  pagamento Pagamento?
+
+  @@map("pedidos")
+}
+
+model ItemPedido {
+  id             String  @id @default(uuid())
+  pedidoId       String
+  pedido         Pedido  @relation(fields: [pedidoId], references: [id])
+  produtoId      String
+  produto        Produto @relation(fields: [produtoId], references: [id])
+  quantidade     Int
+  precoUnitario  Decimal @db.Decimal(10, 2)
+
+  @@map("itens_pedido")
+}
+
+model Pagamento {
+  id                 String   @id @default(uuid())
+  pedidoId           String   @unique
+  pedido             Pedido   @relation(fields: [pedidoId], references: [id])
+  gatewayId          String?
+  status             String
+  valor              Decimal  @db.Decimal(10, 2)
+  comissaoPlataforma Decimal  @db.Decimal(10, 2)
+  criadoEm           DateTime @default(now())
+
+  @@map("pagamentos")
+}
+
+model Avaliacao {
+  id         String   @id @default(uuid())
+  autorId    String
+  autor      User     @relation(fields: [autorId], references: [id])
+  alvoTipo   String
+  alvoId     String
+  nota       Int
+  comentario String?
+  criadoEm   DateTime @default(now())
+
+  @@map("avaliacoes")
+}
+
+model Carrinho {
+  id          String         @id @default(uuid())
+  compradorId String         @unique
+  comprador   User           @relation(fields: [compradorId], references: [id])
+
+  itens ItemCarrinho[]
+
+  @@map("carrinhos")
+}
+
+model ItemCarrinho {
+  id         String   @id @default(uuid())
+  carrinhoId String
+  carrinho   Carrinho @relation(fields: [carrinhoId], references: [id])
+  produtoId  String
+  produto    Produto  @relation(fields: [produtoId], references: [id])
+  quantidade Int
+
+  @@map("itens_carrinho")
+}
