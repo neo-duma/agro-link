@@ -1,5 +1,5 @@
-import Header from '../components/Header';
-import Button from '../components/Button';
+import Header from '../../components/Header';
+import Button from '../../components/Button';
 
 const itensPorProdutor = [
   { produtor: 'Sítio Boa Terra', item: 'Tomate orgânico', qtd: '2 kg', preco: 13.8 },

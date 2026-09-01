@@ -1,7 +1,7 @@
-import Header from '../components/Header';
-import Button from '../components/Button';
-import ProductCard from '../components/ProductCard';
-import { produtores, produtos } from '../data/mock';
+import Header from '../../components/Header';
+import Button from '../../components/Button';
+import ProductCard from '../../components/ProductCard';
+import { produtores, produtos } from '../../data/mock';
 
 export default function ProdutorPerfil() {
   const produtor = produtores[0];

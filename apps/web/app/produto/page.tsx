@@ -1,6 +1,6 @@
-import Header from '../components/Header';
-import Button from '../components/Button';
-import { produtos } from '../data/mock';
+import Header from '../../components/Header';
+import Button from '../../components/Button';
+import { produtos } from '../../data/mock';
 
 export default function ProdutoDetalhe() {
   const produto = produtos[0];
