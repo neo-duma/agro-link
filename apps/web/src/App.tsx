@@ -1,10 +1,18 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import ProdutorPerfil from './pages/ProdutorPerfil';
+import ProdutoDetalhe from './pages/ProdutoDetalhe';
+import Carrinho from './pages/Carrinho';
+
 export default function App() {
   return (
-    <main className="min-h-screen p-8">
-      <h1 className="text-2xl font-medium">AgroLink</h1>
-      <p className="text-gray-600 mt-2">
-        Marketplace de produtos agrícolas — setup inicial do frontend (React + Vite).
-      </p>
-    </main>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/produtor" element={<ProdutorPerfil />} />
+        <Route path="/produto" element={<ProdutoDetalhe />} />
+        <Route path="/carrinho" element={<Carrinho />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
