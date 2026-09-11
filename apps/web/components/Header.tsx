@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Button from './Button';
 
 export default function Header() {
   return (
@@ -12,7 +13,7 @@ export default function Header() {
       <Link href="/carrinho" aria-label="Carrinho" className="text-ink">
         🛒
       </Link>
-      <div className="w-6 h-6 rounded-full bg-coral" />
+      <Button className="!px-4 !py-1.5">Sign up</Button>
     </header>
   );
 }
