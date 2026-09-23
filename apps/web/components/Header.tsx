@@ -13,7 +13,9 @@ export default function Header() {
       <Link href="/carrinho" aria-label="Carrinho" className="text-ink">
         🛒
       </Link>
-      <Button className="!px-4 !py-1.5">Sign up</Button>
+      <Link href="/cadastro">
+        <Button className="!px-4 !py-1.5">Sign up</Button>
+      </Link>
     </header>
   );
 }

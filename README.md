@@ -55,8 +55,8 @@ npm run dev:web
 
 ## Estado atual (Fase 1)
 
-- [x] Setup do repositório (este passo)
-- [ ] Autenticação (cadastro/login comprador e produtor)
+- [x] Setup do repositório
+- [x] Autenticação (cadastro/login comprador e produtor) — rotas `/auth/cadastro`, `/auth/login`, `/auth/me` na API; telas `/login` e `/cadastro` no frontend
 - [ ] CRUD de perfil de produtor
 - [ ] CRUD de produtos + categorias
 - [ ] Upload de imagens
