@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import healthRouter from './routes/health.js';
 import authRouter from './auth/routes.js';
+import produtoresRouter from './produtores/routes.js';
 
 const app = express();
 
@@ -11,8 +12,9 @@ app.use(express.json());
 
 app.use('/health', healthRouter);
 app.use('/auth', authRouter);
+app.use('/produtores', produtoresRouter);
 
-// próximas rotas: /produtores, /produtos, /pedidos, /carrinho
+// próximas rotas: /produtos, /pedidos, /carrinho
 
 const port = process.env.API_PORT ?? 3333;
 app.listen(port, () => {

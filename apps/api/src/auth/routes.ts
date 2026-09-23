@@ -14,7 +14,7 @@ router.post('/cadastro', async (req, res) => {
     return res.status(400).json({ erro: resultado.error.issues[0].message });
   }
 
-  const { nome, email, senha, telefone, tipo } = resultado.data;
+  const { nome, email, senha, telefone } = resultado.data;
 
   const usuarioExistente = await prisma.user.findUnique({ where: { email } });
   if (usuarioExistente) {
@@ -24,7 +24,7 @@ router.post('/cadastro', async (req, res) => {
   const senhaHash = await bcrypt.hash(senha, 10);
 
   const usuario = await prisma.user.create({
-    data: { nome, email, senhaHash, telefone, tipo },
+    data: { nome, email, senhaHash, telefone },
   });
 
   const token = assinarToken({ sub: usuario.id, tipo: usuario.tipo });
@@ -65,7 +65,15 @@ router.post('/login', async (req, res) => {
 router.get('/me', exigirAutenticacao, async (req: AuthRequest, res) => {
   const usuario = await prisma.user.findUnique({
     where: { id: req.usuario!.sub },
-    select: { id: true, nome: true, email: true, tipo: true, telefone: true, criadoEm: true },
+    select: {
+      id: true,
+      nome: true,
+      email: true,
+      tipo: true,
+      telefone: true,
+      criadoEm: true,
+      produtor: { select: { id: true, nomeLoja: true } },
+    },
   });
 
   if (!usuario) {

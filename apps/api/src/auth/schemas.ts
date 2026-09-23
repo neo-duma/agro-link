@@ -5,7 +5,6 @@ export const cadastroSchema = z.object({
   email: z.string().email('E-mail inválido'),
   senha: z.string().min(6, 'A senha precisa ter no mínimo 6 caracteres'),
   telefone: z.string().optional(),
-  tipo: z.enum(['COMPRADOR', 'PRODUTOR']).default('COMPRADOR'),
 });
 
 export const loginSchema = z.object({

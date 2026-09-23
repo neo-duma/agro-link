@@ -8,8 +8,7 @@ datasource db {
 }
 
 enum TipoUsuario {
-  COMPRADOR
-  PRODUTOR
+  CLIENTE
   ADMIN
 }
 
@@ -28,7 +27,7 @@ model User {
   email     String      @unique
   senhaHash String
   telefone  String?
-  tipo      TipoUsuario @default(COMPRADOR)
+  tipo      TipoUsuario @default(CLIENTE)
   criadoEm  DateTime    @default(now())
 
   produtor   Produtor?

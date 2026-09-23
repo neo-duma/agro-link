@@ -9,7 +9,6 @@ import { cadastrar } from '../../lib/api';
 
 export default function CadastroPage() {
   const router = useRouter();
-  const [tipo, setTipo] = useState<'COMPRADOR' | 'PRODUTOR'>('COMPRADOR');
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -31,7 +30,7 @@ export default function CadastroPage() {
 
     setCarregando(true);
     try {
-      const { token } = await cadastrar({ nome, email, senha, tipo });
+      const { token } = await cadastrar({ nome, email, senha });
       localStorage.setItem('agrolink_token', token);
       router.push('/');
     } catch (err) {
@@ -45,28 +44,7 @@ export default function CadastroPage() {
     <div className="min-h-screen bg-sand flex items-center justify-center p-4">
       <form onSubmit={handleSubmit} className="w-full max-w-sm bg-white rounded-xl p-6">
         <p className="text-lg font-medium text-ink mb-1">agrolink</p>
-        <p className="text-sm text-muted mb-4">Crie sua conta</p>
-
-        <div className="flex gap-2 mb-4">
-          <button
-            type="button"
-            onClick={() => setTipo('COMPRADOR')}
-            className={`flex-1 text-xs rounded-lg py-2 border ${
-              tipo === 'COMPRADOR' ? 'bg-coral-light border-coral text-ink' : 'border-line text-muted'
-            }`}
-          >
-            Sou comprador
-          </button>
-          <button
-            type="button"
-            onClick={() => setTipo('PRODUTOR')}
-            className={`flex-1 text-xs rounded-lg py-2 border ${
-              tipo === 'PRODUTOR' ? 'bg-coral-light border-coral text-ink' : 'border-line text-muted'
-            }`}
-          >
-            Sou produtor
-          </button>
-        </div>
+        <p className="text-sm text-muted mb-6">Crie sua conta</p>
 
         <label className="text-xs text-muted mb-1 block">Nome</label>
         <Input value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Seu nome" className="mb-3" />

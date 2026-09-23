@@ -4,7 +4,7 @@ interface Usuario {
   id: string;
   nome: string;
   email: string;
-  tipo: 'COMPRADOR' | 'PRODUTOR' | 'ADMIN';
+  tipo: 'CLIENTE' | 'ADMIN';
 }
 
 interface AuthResponse {
@@ -12,10 +12,13 @@ interface AuthResponse {
   usuario: Usuario;
 }
 
-async function chamarApi<T>(caminho: string, body: unknown): Promise<T> {
+async function chamarApi<T>(caminho: string, body: unknown, token?: string): Promise<T> {
   const res = await fetch(`${API_URL}${caminho}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
     body: JSON.stringify(body),
   });
 
@@ -28,15 +31,17 @@ async function chamarApi<T>(caminho: string, body: unknown): Promise<T> {
   return dados as T;
 }
 
-export function cadastrar(input: {
-  nome: string;
-  email: string;
-  senha: string;
-  tipo: 'COMPRADOR' | 'PRODUTOR';
-}) {
+export function cadastrar(input: { nome: string; email: string; senha: string }) {
   return chamarApi<AuthResponse>('/auth/cadastro', input);
 }
 
 export function login(input: { email: string; senha: string }) {
   return chamarApi<AuthResponse>('/auth/login', input);
+}
+
+export function criarPerfilProdutor(
+  input: { nomeLoja: string; descricao?: string; localizacao?: string },
+  token: string,
+) {
+  return chamarApi<{ id: string; nomeLoja: string }>('/produtores', input, token);
 }

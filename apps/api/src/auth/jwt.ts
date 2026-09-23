@@ -5,7 +5,7 @@ const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN ?? '7d';
 
 export interface TokenPayload {
   sub: string; // id do usuário
-  tipo: 'COMPRADOR' | 'PRODUTOR' | 'ADMIN';
+  tipo: 'CLIENTE' | 'ADMIN';
 }
 
 export function assinarToken(payload: TokenPayload) {
